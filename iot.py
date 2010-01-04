@@ -21,8 +21,12 @@ irc.connect('irc.freenode.net', 6667)
 
 irc.join('#slicehost')
 
+last_time = time.time()
+
 while True:
     irc.read()
-    twitter.check_twitter('udev_random', queue)
-    queue.process_message_queue()
-    time.sleep(5)
+    if time.time() - last_time > 20:
+        last_time = time.time()
+        twitter.check_twitter('udev_random', password, queue)
+        queue.process_message_queue()
+    time.sleep(2)
