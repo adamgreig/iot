@@ -5,7 +5,7 @@ import message_queue
 import time
 
 username = "wdw_irc"
-password = "#######"
+password = raw_input("the password, please: ")
 
 def process_message(data):
     if data['username'] == 'wdw':
