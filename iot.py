@@ -13,8 +13,6 @@ password = "#######"
 
 last_status = ""
 
-twitter_feed_url = "http://twitter.com/statuses/user_timeline/%s.rss"
-
 def process_message(data):
     if data['username'] == 'wdw':
         twitter.post_tweet(username, password, data['message'])
@@ -31,6 +29,6 @@ irc.join('#slicehost')
 
 while True:
     irc.read()
-    twitter.check_twitter('udev_random', queue, last_status)
+    twitter.check_twitter('udev_random', queue)
     queue.process_message_queue()
     time.sleep(5)

@@ -3,8 +3,12 @@ import urllib
 import logging
 from xml.dom import minidom
 
+last_status = ""
+twitter_feed_url = "http://twitter.com/statuses/user_timeline/%s.rss"
 
-def check_twitter(username, queue, last_status):
+def check_twitter(username, queue):
+    global last_status
+    global twitter_feed_url
     feed_url = twitter_feed_url % username
     f = urllib2.urlopen(feed_url)
     xmldoc = minidom.parse(f)
