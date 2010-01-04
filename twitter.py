@@ -1,6 +1,22 @@
 import urllib2
 import urllib
 import logging
+from xml.dom import minidom
+
+
+def check_twitter(username, queue, last_status):
+    feed_url = twitter_feed_url % username
+    f = urllib2.urlopen(feed_url)
+    xmldoc = minidom.parse(f)
+    items = xmldoc.getElementsByTagName('item')
+    if items:
+        item = items[0]
+        status = item.getElementsByTagName('description')[0].firstChild
+        if status:
+            status = status.data
+            if status != last_status:
+                queue.addSayMessage('<wdw> ' + status, '#slicehost')
+                last_status = status
 
 def post_tweet(username, password, tweet):
     twitter = "http://twitter.com/statuses/update.xml"
