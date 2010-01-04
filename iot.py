@@ -2,16 +2,10 @@ import irc
 import twitter
 import message_queue
 
-import socket
 import time
-import sys
-import urllib2
-from xml.dom import minidom
 
 username = "wdw_irc"
 password = "#######"
-
-last_status = ""
 
 def process_message(data):
     if data['username'] == 'wdw':

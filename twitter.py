@@ -1,16 +1,20 @@
 import urllib2
 import urllib
-import logging
 from xml.dom import minidom
 
 last_status = ""
-twitter_feed_url = "http://twitter.com/statuses/user_timeline/%s.rss"
+twitter_feed_url = 'http://twitter.com/statuses/user_timeline/%s.rss'
 
 def check_twitter(username, queue):
     global last_status
     global twitter_feed_url
     feed_url = twitter_feed_url % username
-    f = urllib2.urlopen(feed_url)
+    try:
+        f = urllib2.urlopen(feed_url)
+    except urllib2.URLError, e:
+        print "error checking tweets (%s)" % feed_url
+        print e
+        return
     xmldoc = minidom.parse(f)
     items = xmldoc.getElementsByTagName('item')
     if items:
@@ -36,8 +40,7 @@ def post_tweet(username, password, tweet):
         status = resp.read
     except urllib2.URLError, e:
         if hasattr(e, 'reason'):
-            logging.critical("Unable to reach twitter - %s", e.reason)
+            print "Unable to reach twitter - %s" % e.reason
         elif hasattr(e, 'code'):
-            logging.critical("Error on Twitter - %s", e.code)
-            raise
+            "Error on Twitter - %s" % e.code
 
